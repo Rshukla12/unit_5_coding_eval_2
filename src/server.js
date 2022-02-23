@@ -6,7 +6,7 @@ const app = express();
 
 const connect = require("./config/db.config");
 
-const userRouter = require("./routes/user.route");
+const userRouter = require("./routes/auth.route");
 
 const PORT = process.env.PORT || 5000;
 
