@@ -1,5 +1,6 @@
 const express = require("express");
 const upload = require("../config/upload.config");
+const Student = require("../models/student.model");
 const User = require("../models/user.model");
 
 const createToken = require("../utils/generateToken");
@@ -17,6 +18,14 @@ router.post("/signup", upload.single('profile_photo'), async (req, res) => {
             ...req.body,
             profile_photo_url: req.file.path
         });
+
+        if ( user.roles === "student"){
+            await Student.create({
+                rollnumber: req.body.rollnumber,
+                batch: req.body.batch,
+                user: user._id
+            });
+        }
 
         if ( !user ) return res.status(400).json({ status: "failure", msg: "something went wrong while creating!" });
         
