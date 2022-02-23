@@ -6,8 +6,11 @@ const app = express();
 
 const connect = require("./config/db.config");
 
+const userRouter = require("./routes/user.route");
+
 const PORT = process.env.PORT || 5000;
 
+app.use("/auth", userRouter);
 app.get("/", (req, res) => {
     res.send("hello!");
 });
