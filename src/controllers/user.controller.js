@@ -14,7 +14,7 @@ const signup = async (req, res) => {
 
         if ( req.body.roles === "student"){
             if ( !req.body.rollnumber ) return res.status(400).json({ status: "failure", msg: "rollnumber is required for student!" });
-            if ( !req.body.batch ) return res.status(400).json({ status: "failure", msg: "rollnumber is required for student!" });
+            if ( !req.body.batch ) return res.status(400).json({ status: "failure", msg: "batch is required for student!" });
         }
 
         const user = await User.create({
