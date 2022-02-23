@@ -8,12 +8,19 @@ const signup = async (req, res) => {
         const doesUserExist = await User.findOne({ email: req.body.email });
         if ( doesUserExist ) return res.status(400).json({ status: "failure", msg: "User already exists!" });
 
+
+        const allowedRoles = ['admin', 'student', 'instructor'];
+        if ( !allowedRoles.includes(user.roles) ) return res.status(400).json({ status: "failure", msg: "roles need to be one of the following -'student', 'admin', 'instructor' !" });    
+
         const user = await User.create({
             ...req.body,
             profile_photo_url: req.file.path
         });
 
         if ( user.roles === "student"){
+            if ( !req.body.rollnumber ) return res.status(400).json({ status: "failure", msg: "rollnumber is required for student!" });
+            if ( !req.body.batch ) return res.status(400).json({ status: "failure", msg: "rollnumber is required for student!" });
+            
             await Student.create({
                 rollnumber: req.body.rollnumber,
                 batch: req.body.batch,
