@@ -1,7 +1,7 @@
-const { validatoionResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 
 const validator = (req, res, next) => {
-    const errors = validatoionResult(req);
+    const errors = validationResult(req);
     if ( !errors.isEmpty() ) return res.status(400).json({ status: "failure", msg: "Invalid input!", error: errors.array()});
     next();
 };
