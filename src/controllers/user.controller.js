@@ -8,8 +8,6 @@ const signup = async (req, res) => {
         const doesUserExist = await User.findOne({ email: req.body.email });
         if ( doesUserExist ) return res.status(400).json({ status: "failure", msg: "User already exists!" });
 
-        console.log(req.body);
-
         const user = await User.create({
             ...req.body,
             profile_photo_url: req.file.path
@@ -25,7 +23,9 @@ const signup = async (req, res) => {
 
         if ( !user ) return res.status(400).json({ status: "failure", msg: "something went wrong while creating!" });
         
-        res.status(201).json({status:"sucess", msg: "user created successfully!"});
+        const token = createToken(user);
+        
+        res.status(201).json({status:"sucess", msg: "user created successfully!", token: token});
     } catch (error) {
         res.status(500).json({ status: "failure", msg: "Something went wrong!" });
     }
